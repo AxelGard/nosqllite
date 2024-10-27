@@ -16,7 +16,12 @@ setup(
     long_description_content_type="text/markdown",
     install_requires=[
     ],
-    extras_requires={"dev": ["pytest"]},
+    extras_require={
+        'dev': [
+            'pytest',
+            "black",
+        ]
+    },
     classifiers=[
         "Development Status :: 1 - Planning",
         "Topic :: Database",
