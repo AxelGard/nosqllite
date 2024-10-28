@@ -1,0 +1,16 @@
+{
+    "metadata": {
+        "timestamp": 1730137249.686592,
+        "datahash": "381bd785db259ba11cda5855ac37f302b2802e824cade48022d740b9f2ed2bc3"
+    },
+    "data": {
+        "users": [
+            {
+                "name": "Axel"
+            },
+            {
+                "name": "Foo"
+            }
+        ]
+    }
+}
