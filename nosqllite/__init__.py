@@ -1,46 +1,22 @@
-
 import os
 import typing
 import json
 import datetime
-import decimal
 import hashlib
 import warnings
 
 
-def is_json_serializable(value: typing.Any) -> typing.Tuple[bool, str]:
-    try:
-        json.dumps(value)
-        return True, ""
-    except (TypeError, OverflowError) as e:
-        if isinstance(value, (datetime.datetime, decimal.Decimal)):
-            return (
-                False,
-                f"Value of type {type(value).__name__} needs to be converted to string or number first",
-            )
-        elif callable(value):
-            return False, "Functions cannot be serialized to JSON"
-        elif hasattr(value, "__dict__"):
-            return (
-                False,
-                f"Custom object of type {type(value).__name__} cannot be directly serialized",
-            )
-        else:
-            return False, str(e)
-
-
 class Document:
     def __init__(self, file_path: str) -> None:
+        self.file_path = file_path
         self.name = file_path.split("/")[-1].split(".json")[0]
         self.data: typing.Union[list, dict] = {}
         self.metadata = {}
         self.is_locked = False
-        self.file_path = file_path
         if not self.is_doc(file_path):
             self._write(self.file_path, self.set_metadata(), self.data)
 
         self.metadata, self.data = self._read(self.file_path)
-        #self.file_path = os.path.abspath(file_path)
         self.has_read = True
 
     @staticmethod
@@ -75,6 +51,11 @@ class Document:
         self.metadata["datahash"] = self.hash(self.data)
         return self.metadata
 
+    @staticmethod
+    def load(file_path): 
+        if not Document.is_doc(file_path):
+            raise ValueError(f"Tried to load a non Doc file: {file_path}")
+        return Document(file_path)
 
     @staticmethod
     def _read(file_path) -> typing.Tuple[dict, typing.Union[list, dict]]:
@@ -97,6 +78,12 @@ class Document:
     def __setitem__(self, key, value):
         self.data[key] = value
 
+    def __str__(self) -> str:
+        return str(self.data)
+
+    def __repr__(self) -> str: 
+        return f"nosqllite.Document({self.file_path})"
+
 
 class Database:
     def __init__(self, database_path: str) -> None:
@@ -113,10 +100,11 @@ class Database:
 
     def setup(self, path: str): 
         files = os.listdir(path)
+        if path[-1] != "/": path += "/"
         for f in files:
             if ".json" in f:
                 name = f.split("/")[-1].split(".json")[0]
-                self.documents[name] = Document(f)
+                self.documents[name] = Document(path + f)
 
     def new_document(self, name: str) -> Document:
         """Adds new document to the database"""
@@ -139,3 +127,9 @@ class Database:
         if not isinstance(value, Document):
             raise ValueError("set needs to be a nosqllite.Document object")
         self.documents[key] = value
+    
+    def __str__(self) -> str:
+        return str(self.documents)
+
+    def __repr__(self) -> str: 
+        return f"nosqllite.Database({self.database_path})"
