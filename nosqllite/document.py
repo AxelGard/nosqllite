@@ -19,8 +19,8 @@ class Document:
         self.has_read = True
 
     @staticmethod
-    def is_doc(file_path:str) -> bool:
-        """ is document a valid doc? """
+    def is_doc(file_path: str) -> bool:
+        """is document a valid doc?"""
         if not os.path.isfile(file_path) or not ".json" in file_path:
             return False
         with open(file_path) as f:
@@ -52,7 +52,7 @@ class Document:
         return self.metadata
 
     @staticmethod
-    def load(file_path): 
+    def load(file_path):
         if not Document.is_doc(file_path):
             raise ValueError(f"Tried to load a non Doc file: {file_path}")
         return Document(file_path)
@@ -64,11 +64,8 @@ class Document:
         return d["metadata"], d["data"]
 
     @staticmethod
-    def _write(file_path:str, metadata:dict, data:typing.Union[list, dict]) -> None:
-        d = {
-            "metadata": metadata, 
-            "data": data
-        }
+    def _write(file_path: str, metadata: dict, data: typing.Union[list, dict]) -> None:
+        d = {"metadata": metadata, "data": data}
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(d, f, ensure_ascii=False, indent=4)
 
@@ -81,5 +78,5 @@ class Document:
     def __str__(self) -> str:
         return str(self.data)
 
-    def __repr__(self) -> str: 
+    def __repr__(self) -> str:
         return f"nosqllite.Document({self.file_path})"

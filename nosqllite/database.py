@@ -3,6 +3,7 @@ import typing
 import warnings
 from nosqllite import document
 
+
 class Database:
     def __init__(self, database_path: str) -> None:
         self.database_path = database_path
@@ -11,17 +12,18 @@ class Database:
 
     @staticmethod
     def new(file_path):
-        """ Make a new database """
-        if os.path.isdir(file_path): 
+        """Make a new database"""
+        if os.path.isdir(file_path):
             warnings.warn("there is a dir with that name")
         else:
             os.mkdir(file_path)
         return Database(file_path)
 
-    def load(self, path: str): 
-        """ Load in all documents in database """
+    def load(self, path: str):
+        """Load in all documents in database"""
         files = os.listdir(path)
-        if path[-1] != "/": path += "/"
+        if path[-1] != "/":
+            path += "/"
         for f in files:
             if ".json" in f:
                 name = f.split("/")[-1].split(".json")[0]
@@ -48,9 +50,9 @@ class Database:
         if not isinstance(value, document.Document):
             raise ValueError("set needs to be a nosqllite.Document object")
         self.documents[key] = value
-    
+
     def __str__(self) -> str:
         return str(self.documents)
 
-    def __repr__(self) -> str: 
+    def __repr__(self) -> str:
         return f"nosqllite.Database({self.database_path})"
