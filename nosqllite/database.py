@@ -7,8 +7,12 @@ from nosqllite import document
 class Database:
     def __init__(self, database_path: str) -> None:
         self.database_path = database_path
+        if database_path[-1] != "/":
+            database_path += "/"
+        self.name = database_path.split("/")[-2]
         self.documents: typing.Dict[str, document.Document] = {}
         self.load(self.database_path)
+        
 
     @staticmethod
     def new(file_path):

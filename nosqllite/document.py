@@ -37,6 +37,9 @@ class Document:
         else:
             self._write(self.file_path, self.set_metadata(), self.data)
 
+    def delete(self):
+        os.remove(self.file_path)
+
     def hash(self, data) -> str:
         dhash = hashlib.sha256()
         if isinstance(data, (dict, list)):
