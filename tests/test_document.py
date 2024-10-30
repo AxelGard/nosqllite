@@ -37,7 +37,7 @@ def test_document_data():
 
 
 
-def test_document_sync():
+def test_document_synt():
     global DB_NAME
     db = get_db()
     doc_name = f"test-doc-{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
