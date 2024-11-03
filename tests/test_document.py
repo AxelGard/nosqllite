@@ -64,6 +64,7 @@ def test_document_metadata():
     
     assert list(doc.metadata.keys()) == expected_metadata_keys
 
-
+    doc.delete()
+    del doc
 
 
