@@ -51,3 +51,19 @@ def test_document_synt():
     
     doc.delete()
     del doc
+
+
+def test_document_metadata():
+    global DB_NAME
+    db = get_db() 
+    doc_name = f"test-doc-{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
+    doc = db.new_document(doc_name) 
+    doc.data = [1,2]
+    doc.set_metadata()
+    expected_metadata_keys = ["timestamp", "datahash", ] 
+    
+    assert list(doc.metadata.keys()) == expected_metadata_keys
+
+
+
+
