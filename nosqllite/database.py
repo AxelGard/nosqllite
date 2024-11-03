@@ -12,7 +12,6 @@ class Database:
         self.name = database_path.split("/")[-2]
         self.documents: typing.Dict[str, document.Document] = {}
         self.load(self.database_path)
-        
 
     @staticmethod
     def new(file_path):
