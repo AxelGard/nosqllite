@@ -3,7 +3,7 @@ A lite nosql database for python
 
 
 
-## Example, Demo 
+## Example 
 
 
 ```python
@@ -19,6 +19,15 @@ db.save()
 
 print(doc.data)
 print(db.documents)
-for d in db:
-     
+for doc in db:
+    print(doc.type_of())
+    for d in doc:
+        print(d)
+
+db["users"].data.pop(-1)
+print(db["users"].data)
+db.save()
+
 ```
+
+for more check out [my experiments](./expr/expr.ipynb).

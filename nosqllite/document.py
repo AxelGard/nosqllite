@@ -84,11 +84,9 @@ class Document:
         print("debug")
         self.data[key] = value
 
-
     def __iter__(self):
         for v in self.data:
             yield v
-        
 
     def __str__(self) -> str:
         return str(self.data)

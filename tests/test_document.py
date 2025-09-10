@@ -68,3 +68,8 @@ def test_document_metadata():
     del doc
 
 
+def test_document_clean_up(): 
+    global DB_NAME
+    db = get_db() 
+    db.delete()
+    assert not os.path.isdir(DB_NAME)

@@ -1,6 +1,7 @@
 import os
 import typing
 import warnings
+from pathlib import Path
 from nosqllite import document
 
 
@@ -46,6 +47,19 @@ class Database:
         for _, doc in self.documents.items():
             doc.save()
 
+    def delete_document(self, doc_name: str):
+        self.documents[doc_name].delete()
+
+    def delete(self):
+        """delete database"""
+        directory = Path(self.database_path)
+        for item in directory.iterdir():
+            if item.is_dir():
+                rmdir(item)
+            else:
+                item.unlink()
+        directory.rmdir()
+
     def __getitem__(self, key: str):
         return self.documents[key]
 
@@ -56,7 +70,7 @@ class Database:
 
     def __iter__(self):
         for _, d in self.documents.items():
-            yield d 
+            yield d
 
     def __str__(self) -> str:
         return f"{self.database_path}"
