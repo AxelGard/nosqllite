@@ -10,13 +10,14 @@ def get_db() -> nosqllite.Database:
         db = nosqllite.Database.new(DB_NAME)
     else: 
         db = nosqllite.Database(DB_NAME)
+    DB_NAME = os.path.abspath(DB_NAME)
     return db
 
 def test_document_name():
     global DB_NAME
     db = get_db()
     doc_name = f"test-doc-{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
-    doc = db.new_document(doc_name)
+    doc = db.add_document(doc_name)
     assert doc.name == doc_name
     assert doc.file_path == DB_NAME + "/" + doc_name + ".json"
     doc.delete()
@@ -26,7 +27,7 @@ def test_document_data():
     global DB_NAME
     db = get_db()
     doc_name = f"test-doc-{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
-    doc = db.new_document(doc_name)
+    doc = db.add_document(doc_name)
 
     doc.data["some_key"] = [1,2]
     doc["some_key"].append(3)
@@ -41,7 +42,7 @@ def test_document_synt():
     global DB_NAME
     db = get_db()
     doc_name = f"test-doc-{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
-    doc = db.new_document(doc_name)
+    doc = db.add_document(doc_name)
 
     doc.data["some_key"] = [1,2]
     doc.save()
@@ -57,7 +58,7 @@ def test_document_metadata():
     global DB_NAME
     db = get_db() 
     doc_name = f"test-doc-{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
-    doc = db.new_document(doc_name) 
+    doc = db.add_document(doc_name) 
     doc.data = [1,2]
     doc.set_metadata()
     expected_metadata_keys = ["timestamp", "datahash", ] 

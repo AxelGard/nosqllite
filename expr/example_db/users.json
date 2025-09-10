@@ -1,11 +1,14 @@
 {
     "metadata": {
-        "timestamp": 1757497806.304002,
-        "datahash": "eb9ee38f752fbb68ca0923036ed338c914bc66cb4ef37347cf10d4bcf4d0a61c"
+        "timestamp": 1757510271.411506,
+        "datahash": "0a6e7ac37b07da0c86a9374cb248c1a4f302059abfa64f9e05ce76e1cdd9fe3f"
     },
     "data": [
         {
             "name": "Axel"
+        },
+        {
+            "name": "Foo"
         }
     ]
 }

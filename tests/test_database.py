@@ -21,8 +21,8 @@ def test_database():
 def test_database_delete():
     global DB_NAME
     db = get_db()
-    db.new_document("test_1")
-    db.new_document("test_2")
+    db.add_document("test_1")
+    db.add_document("test_2")
     db["test_1"].data = [1,2,3]
     db["test_2"].data = [1,2,3]
     db.save()

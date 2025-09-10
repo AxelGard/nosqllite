@@ -8,7 +8,7 @@ import hashlib
 class Document:
     def __init__(self, file_path: str) -> None:
         self.file_path = file_path
-        self.name = file_path.split("/")[-1].split(".json")[0]
+        self.name = os.path.basename(file_path).split("/")[-1].split(".json")[0]
         self.data: typing.Union[list, dict] = {}
         self.metadata = {}
         self.is_locked = False
@@ -93,3 +93,8 @@ class Document:
 
     def __repr__(self) -> str:
         return f"nosqllite.Document({self.file_path})"
+
+    def __dict__(self) -> dict:
+        return {
+            "data": self.data,
+        } 

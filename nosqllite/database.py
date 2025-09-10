@@ -3,16 +3,12 @@ import typing
 import warnings
 from pathlib import Path
 from nosqllite import document
+from nosqllite import group
 
 
-class Database:
-    def __init__(self, database_path: str) -> None:
-        self.database_path = database_path
-        if database_path[-1] != "/":
-            database_path += "/"
-        self.name = database_path.split("/")[-2]
-        self.documents: typing.Dict[str, document.Document] = {}
-        self.load(self.database_path)
+class Database(group.Group):
+    def __init__(self, file_path:str):
+        super().__init__(file_path)
 
     @staticmethod
     def new(file_path):
@@ -23,57 +19,6 @@ class Database:
             os.mkdir(file_path)
         return Database(file_path)
 
-    def load(self, path: str):
-        """Load in all documents in database"""
-        files = os.listdir(path)
-        if path[-1] != "/":
-            path += "/"
-        for f in files:
-            if ".json" in f:
-                name = f.split("/")[-1].split(".json")[0]
-                self.documents[name] = document.Document.load(path + f)
-
-    def new_document(self, name: str) -> document.Document:
-        """Adds new document to the database"""
-        if name in self.documents:
-            warnings.warn("tried to make new doc but name taken")
-            return self.documents[name]
-        new_doc = document.Document(self.database_path + f"/{name}.json")
-        self.documents[name] = new_doc
-        return self.documents[name]
-
-    def save(self):
-        """saves all documents in database"""
-        for _, doc in self.documents.items():
-            doc.save()
-
-    def delete_document(self, doc_name: str):
-        self.documents[doc_name].delete()
-
-    def delete(self):
-        """delete database"""
-        directory = Path(self.database_path)
-        for item in directory.iterdir():
-            if item.is_dir():
-                rmdir(item)
-            else:
-                item.unlink()
-        directory.rmdir()
-
-    def __getitem__(self, key: str):
-        return self.documents[key]
-
-    def __setitem__(self, key, value):
-        if not isinstance(value, document.Document):
-            raise ValueError("set needs to be a nosqllite.Document object")
-        self.documents[key] = value
-
-    def __iter__(self):
-        for _, d in self.documents.items():
-            yield d
-
-    def __str__(self) -> str:
-        return f"{self.database_path}"
-
     def __repr__(self) -> str:
-        return f"nosqllite.Database({self.database_path})"
+        return f"nosqllite.Database({self.file_path})"
+
