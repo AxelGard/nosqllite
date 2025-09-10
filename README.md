@@ -7,13 +7,15 @@ A lite nosql database for python
 
 
 ```python
-import nosqllite as nosqll
+import nosqllite
 
-db = nosqll.Database.new("demo_db")
+db = nosqllite.Database.new("demo_db")
 
 doc = db.new_document("users")
 
 db["users"].data = [{"name":"Foo_1"},{"name":"Foo_2"}]
+
+print(db["users"].data[-1]["name"])
 
 db.save() 
 
@@ -31,3 +33,10 @@ db.save()
 ```
 
 for more check out [my experiments](./expr/expr.ipynb).
+
+
+## Install 
+
+```bash
+pip install nosqllite
+```
