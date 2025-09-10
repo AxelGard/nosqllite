@@ -21,7 +21,7 @@ class Document:
     @staticmethod
     def is_doc(file_path: str) -> bool:
         """is document a valid doc?"""
-        if not os.path.isfile(file_path) or not ".json" in file_path:
+        if not os.path.isfile(file_path) or not file_path.endswith(".json"):
             return False
         with open(file_path) as f:
             d = json.load(f)
@@ -30,14 +30,16 @@ class Document:
         del d
         return True
 
-    def sync(self) -> None:
+    def save(self) -> None:
         m, _ = self._read(self.file_path)
         if m["datahash"] == self.hash(self.data):
             return
         else:
             self._write(self.file_path, self.set_metadata(), self.data)
 
-    def delete(self):
+    def delete(self) -> None:
+        self.data = dict()
+        self.metadata = dict()
         os.remove(self.file_path)
 
     def hash(self, data) -> str:
@@ -48,6 +50,9 @@ class Document:
             encoded = str(data).encode()
         dhash.update(encoded)
         return dhash.hexdigest()
+
+    def type_of(self):
+        return type(self.data)
 
     def set_metadata(self) -> dict:
         self.metadata["timestamp"] = datetime.datetime.now().timestamp()
@@ -76,7 +81,14 @@ class Document:
         return self.data[key]
 
     def __setitem__(self, key, value):
+        print("debug")
         self.data[key] = value
+
+
+    def __iter__(self):
+        for v in self.data:
+            yield v
+        
 
     def __str__(self) -> str:
         return str(self.data)

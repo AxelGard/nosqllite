@@ -41,10 +41,10 @@ class Database:
         self.documents[name] = new_doc
         return self.documents[name]
 
-    def sync(self):
-        """Syncs all documents in database"""
+    def save(self):
+        """saves all documents in database"""
         for _, doc in self.documents.items():
-            doc.sync()
+            doc.save()
 
     def __getitem__(self, key: str):
         return self.documents[key]
@@ -54,8 +54,12 @@ class Database:
             raise ValueError("set needs to be a nosqllite.Document object")
         self.documents[key] = value
 
+    def __iter__(self):
+        for _, d in self.documents.items():
+            yield d 
+
     def __str__(self) -> str:
-        return str(self.documents)
+        return f"{self.database_path}"
 
     def __repr__(self) -> str:
         return f"nosqllite.Database({self.database_path})"

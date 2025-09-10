@@ -44,7 +44,7 @@ def test_document_synt():
     doc = db.new_document(doc_name)
 
     doc.data["some_key"] = [1,2]
-    doc.sync()
+    doc.save()
 
     _, d = nosqllite.Document._read(DB_NAME + "/" + doc_name + ".json")
     assert d == doc.data
