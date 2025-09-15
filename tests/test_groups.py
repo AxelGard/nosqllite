@@ -22,9 +22,8 @@ def test_group():
 
 
 def test_group_delete(): 
-    pass 
-    #global DB_NAME
-    #db = get_db()
-    #db.delete()
-    #assert not os.path.isdir(DB_NAME)
+    global DB_NAME
+    db = get_db()
+    db.delete()
+    assert not os.path.isdir(DB_NAME)
 
