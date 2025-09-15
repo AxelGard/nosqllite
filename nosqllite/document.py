@@ -42,7 +42,8 @@ class Document:
         self.metadata = dict()
         os.remove(self.file_path)
 
-    def hash(self, data) -> str:
+    @staticmethod
+    def hash(data) -> str:
         dhash = hashlib.sha256()
         if isinstance(data, (dict, list)):
             encoded = json.dumps(data, sort_keys=True).encode()
