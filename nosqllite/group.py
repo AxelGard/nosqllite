@@ -3,6 +3,7 @@ import typing
 import warnings
 from pathlib import Path
 from nosqllite import document
+import shutil
 
 
 class Group:
@@ -42,6 +43,8 @@ class Group:
         """Adds new document to the database"""
         if name in self.documents:
             warnings.warn("tried to make new doc but name taken")
+            if isinstance(self.documents[name], Group):
+                raise LookupError("Error tried to add document with same name as groups")
             return self.documents[name]
         new_doc = document.Document(self.file_path + f"{name}.json")
         self.documents[name] = new_doc
@@ -59,13 +62,11 @@ class Group:
 
     def delete(self):
         """delete database"""
-        directory = Path(self.file_path)
-        for item in directory.iterdir():
-            if item.is_dir():
-                directory.rmdir(item)
-            else:
-                item.unlink()
-        directory.rmdir()
+        for itm in self.documents.values():
+            itm.delete()
+
+        shutil.rmtree(self.file_path)
+
 
     def __getitem__(self, key: str):
         return self.documents[key]
