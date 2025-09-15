@@ -36,6 +36,8 @@ for more check out [my experiments](./expr/expr.ipynb).
 
 ## Install 
 
+nosqllite is on [pypi](https://pypi.org/project/nosqllite/)
+
 ```bash
 pip install nosqllite
 ```
