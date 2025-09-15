@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="nosqllite",
-    version="0.1.1",
+    version="0.1.2",
     description="A simple nosql data base",
     url="https://github.com/AxelGard/nosqllite",
     author="Axel Gard",
@@ -23,7 +23,7 @@ setup(
         ]
     },
     classifiers=[
-        "Development Status :: 1 - Planning",
+        "Development Status :: 3 - Alpha",
         "Topic :: Database",
         "Topic :: Database :: Database Engines/Servers",
         "Programming Language :: Python :: 3.8",

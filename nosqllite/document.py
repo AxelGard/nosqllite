@@ -95,7 +95,7 @@ class Document:
     def __repr__(self) -> str:
         return f"nosqllite.Document({self.file_path})"
 
-    def __dict__(self) -> dict:
-        return {
+    def __dict__(self):
+        return dict({
             "data": self.data,
-        } 
+        })
