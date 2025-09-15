@@ -78,3 +78,28 @@ db["sub"]["subsub"].add_document("test")
 db["sub"]["subsub"]["test"].data["some_key"] = "value"
 db.save()
 ```
+
+
+
+## Build
+
+```bash
+git clone git@github.com:AxelGard/nosqllite.git
+```
+
+```bash
+cd nosqllite
+```
+
+```bash
+python3 -m venv env
+```
+
+```bash
+source env/bin/activate
+```
+
+```bash
+pip install -e .[dev]
+```
+
